@@ -7,7 +7,7 @@ app.use(express.json());        // ou body parser , on intercepte toutes les req
 app.use(express.urlencoded({    // pour version 4.16.0 et +
     extended: true
   }));
-
+//---
 //------------------------- mongoDB ---------------------------------
 const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://EricG:Lolita60540@cluster0.9srzq.mongodb.net/Cluster0?retryWrites=true&w=majority',
