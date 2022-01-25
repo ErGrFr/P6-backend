@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Projet6",
+  "description": "P6-backend",
   "main": "app.js",
   "dependencies": {
     "bcrypt": "^5.0.1",

@@ -10,7 +10,8 @@
 // dislikes: { type: Number, required: true },         // nb de user qui n'aime pas la sauce
 // usersLiked: { type: Number, required: true },       // chaine de userId
 
-//------------------------------ gestion des sauces -------------------------------
+//------------------------------ gestion des sauces ---------------------------------
+//------------------------------
 const Sauce = require('../models/sauce');
 
 const fs = require('fs');  // file system, pour supprimer l'image local
