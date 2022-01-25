@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
 
+// middleware de verification des valeurs saisies dans le formulaire sauce
+//const checkdatas = require('../middleware/checkdatas');  
+
 const sauceSchema = mongoose.Schema({
 
-    userId: { type: String, required: true },
-    name: { type: String, required: true },
+    userId: { type: String, required: true},
+    name: { type: String, required: true, match: /^[a-zA-Z0-9-_]+$/ }, // match renvoie une erreur serveur ( pas tres explicite)
     manufacturer: { type: String, required: true },
     description: { type: String, required: true },      
     mainPepper: { type: String, required: true },       // principal ingredient épicé de la sauce
