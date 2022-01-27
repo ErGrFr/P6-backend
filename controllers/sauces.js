@@ -84,6 +84,9 @@ exports.modifySauce = (req, res, next) => {
         //console.log(filename);
         fs.unlinkSync(`images/${filename}`);     // suppression du fichier local ( SYNC )
         //console.log(filename);
+        // MAJ de la nouvelle url de l'image
+        //req.body.imageUrl =  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+
         })
       .catch(error => res.status(400).json({error}))
 
@@ -93,7 +96,7 @@ exports.modifySauce = (req, res, next) => {
   
   // MAJ de la nouvelle url de l'image
   req.body.imageUrl =  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-
+  console.log(req.body.imageUrl);
   // sauvegarde dans la BDD
   Sauce.updateOne({_id: req.params.id}, {...req.body, _id:req.params.id})
   .then( () => {

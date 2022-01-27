@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const router = express.Router();
-router.use(cors());   // active AllCORS requests
+//router.use(cors({origin: '*'}));   // active AllCORS requests
 
 const saucesCtrl = require('../controllers/sauces');
 
