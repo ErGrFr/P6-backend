@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 // middleware de verification des valeurs saisies dans le formulaire sauce
-//const checkdatas = require('../middleware/checkdatas');  
 
 const sauceSchema = mongoose.Schema({
 

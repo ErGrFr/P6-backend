@@ -108,12 +108,9 @@ exports.modifySauce = (req, res, next) => {
 //----------------------------------------------------------------------------------
 exports.deleteSauce = (req, res, next) => {
   // suppression du fichier image local
-  //console.log(req.params.id);
   Sauce.findOne({_id: req.params.id})
     .then( sauce => {
-      //console.log(sauce);
       const filename = sauce.imageUrl.split('/images/')[1];
-      //console.log(filename);
       fs.unlink(`images/${filename}`, () => {       // suppression du fichier local et de la sauce
         Sauce.deleteOne({_id: req.params.id})
         .then( () => {
@@ -152,14 +149,13 @@ exports.like = (req, res , next) => {
 
   console.log(req.body);
   console.log(req.params);
-  //res.status(200).json({message: 'like'});
+  
   let like = req.body.like;         // on recupere la valeur du like (like = 1 , dislike = -1 , rien = 0)
   let userId = req.body.userId;     // qui fait la notation
   let sauceId = req.params.id       // sur quelle sauce ( en parametre ds la requete)
   console.log(sauceId);
   //--------------------- cas like ( j'aime) -----------------------------------
   if(like === 1){
-    console.log('like 1');
     // MAj : _id (sauce edité), maj tableau userId , maj du nb de like
     Sauce.updateOne({
       _id: sauceId
@@ -187,14 +183,12 @@ exports.like = (req, res , next) => {
     .then((sauce) =>{
       // supression du dislike 
       if(sauce.usersDisliked.includes(userId)){   // test presence du userId dans la liste
-        console.log('Supression userID Dislike');
         Sauce.updateOne({_id: sauceId}, {$pull: {usersDisliked: userId},$inc:{dislikes: -1},})
         .then(() => {res.status(200).json({message: 'neutral'})})
         .catch((error) => {res.status(400).json({error: error})})
       }
       // supression du like 
       if(sauce.usersLiked.includes(userId)){   // test presence du userId dans la liste
-        console.log('Supression userID Like');
         Sauce.updateOne({_id: sauceId}, {$pull: {usersLiked: userId},$inc:{likes: -1},})
           .then(() => {res.status(200).json({message: 'neutral'})})
           .catch((error) => {res.status(400).json({error: error})})

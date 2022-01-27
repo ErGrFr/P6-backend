@@ -34,13 +34,11 @@ exports.login = async function (req, res, next) {
 
     // --------------- gestion de l'utilisateur ( login name) ------------------
     const user = await User.findOne ({ email: req.body.email}); // await : on attend la reponse
-    console.log(user);
     if(!user){  // verif si l'utilisateur est trouvé
         return res.status(401).json({error: 'Utilisateur inconnue'});
     }
     // ---------------- verification du mot de passe -------------------------
     const passValid = await bcrypt.compare(req.body.password, user.password);
-    console.log(passValid);
     if(!passValid){
         return res.status(401).json({error: 'Password incorrect'});
     }

@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const router = express.Router();
-//router.use(cors({origin: '*'}));   // active AllCORS requests
 
 const saucesCtrl = require('../controllers/sauces');
 
@@ -15,8 +14,5 @@ router.put('/:id', auth, multer, saucesCtrl.modifySauce);   // modification d'un
 router.delete('/:id', auth, saucesCtrl.deleteSauce);        // suppression d'une sauce
 router.post('/:id/like', auth, saucesCtrl.like);            // J'aime ou j'aime pas
 
-// router.listen(8081,function(){
-//     console.log('CORS actif sur server port 8081');
-// });
 
 module.exports = router;
