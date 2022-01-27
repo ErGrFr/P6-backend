@@ -73,38 +73,34 @@ exports.getOneSauce = (req, res, next) => {
 //--------------------------------------------------------------------------------
 exports.modifySauce = (req, res, next) => {
 
-  // //let laSauce = {};
-
-  req.file ?  // si req.file existe ( modification de l'image)
-    (
+  if (req.file){  // si req.file existe ( modification de l'image)
+    
       Sauce.findOne({_id: req.params.id})  // recherche la sauce a modifier pour supprimer l'ancienne image
-      .then( (sauce) => {
-        //console.log(sauce);
+      .then( sauce => {
+      
         const filename = sauce.imageUrl.split('/images/')[1]; // recuperation du nom de l'image
-        //console.log(filename);
-        fs.unlinkSync(`images/${filename}`);     // suppression du fichier local ( SYNC )
-        //console.log(filename);
-        // MAJ de la nouvelle url de l'image
-        //req.body.imageUrl =  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-
-        })
+  
+        fs.unlinkSync(`images/${filename}`);//, (err) => {  // suppression du fichier local ( SYNC )
+    
+          const maSauce = {
+            ...JSON.parse(req.body.sauce),
+            imageUrl:  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, // MAJ nouvelle image
+          }
+          // sauvegarde dans la BDD
+          Sauce.updateOne({_id: req.params.id}, {...maSauce, _id:req.params.id})
+            .then( () => res.status(201).json({message: 'Sauce updated successfully!'}))
+            .catch((error) => res.status(400).json({error: error}));
+        //});     
+      })
       .catch(error => res.status(400).json({error}))
 
-      //...req.body.Sauce, 
-      //imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` // modification de l'url du fichier
-    ) : { ...req.body };  // si req.file n'existe pas , on passe a la maj simple
-  
-  // MAJ de la nouvelle url de l'image
-  req.body.imageUrl =  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-  console.log(req.body.imageUrl);
-  // sauvegarde dans la BDD
-  Sauce.updateOne({_id: req.params.id}, {...req.body, _id:req.params.id})
-  .then( () => {
-    res.status(201).json({message: 'Sauce updated successfully!'});
-  })
-  .catch((error) => {
-    res.status(400).json({error: error});
-  });
+  } else { // si req.file n'existe pas , on passe a la maj simple
+    // sauvegarde dans la BDD
+    const maSauce = {...req.body};
+    Sauce.updateOne({_id: req.params.id}, {...maSauce, _id:req.params.id})
+    .then( () => res.status(201).json({message: 'Sauce updated successfully!'}))
+    .catch((error) => res.status(400).json({error: error}));
+  };  
   
 };
 //-----------------------------------------------------------------------------------
