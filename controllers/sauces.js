@@ -25,8 +25,7 @@ exports.createSauce = async function (req, res, next) {
 
   // On stock les datas du frontend
   const maSauce = JSON.parse(req.body.sauce);
-  //console.log(maSauce);
-
+  
   // création de l'objet sauce ( model sauce)
   const newSauce = new Sauce({
     ...maSauce,   // recuperation des datas de maSauce ( frontend )
@@ -36,7 +35,7 @@ exports.createSauce = async function (req, res, next) {
     usersLiked: [],
     usersDisliked: []
   });
-  console.log(newSauce);
+  
   const saveSauce = await newSauce.save()
   .then( () => {
       res.status(201).json({
@@ -147,13 +146,10 @@ exports.getAllSauces = (req, res, next) => {
 // like = 1 , dislike = -1 , rien = 0
 exports.like = (req, res , next) => {
 
-  console.log(req.body);
-  console.log(req.params);
-  
   let like = req.body.like;         // on recupere la valeur du like (like = 1 , dislike = -1 , rien = 0)
   let userId = req.body.userId;     // qui fait la notation
   let sauceId = req.params.id       // sur quelle sauce ( en parametre ds la requete)
-  console.log(sauceId);
+
   //--------------------- cas like ( j'aime) -----------------------------------
   if(like === 1){
     // MAj : _id (sauce edité), maj tableau userId , maj du nb de like
